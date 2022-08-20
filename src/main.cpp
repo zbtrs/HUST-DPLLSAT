@@ -11,6 +11,34 @@ void terminalTips() {
     printf("------------------------------------------------------------------------\n");
 }
 
+void printAnswer(clock_t startTime,clock_t endTime,bool flag,int *result,int varNum) {
+    string outputFile = filePath + "solution.res";
+    ofstream fos(outputFile);
+    if (!fos.is_open()) {
+        cout << "error! Can't open a new file\n" << endl;
+        exit(-1);
+    }
+    if (flag) {
+        fos << "S " << 1 << endl;
+        fos << "V ";
+        for (int i = 0; i < varNum; i++) {
+            if (result[i] == 1) {
+                fos << i + 1 << " ";
+            } else if (result[i] == 0) {
+                fos << -(i + 1) << " ";
+            } else {
+                fos << i + 1 << " ";
+            }
+        }
+        fos << endl;
+    } else {
+        fos << "S " << -1 << endl;
+        fos << "V " << endl;
+    }
+    fos<< "T " << (double)(endTime - startTime) / CLOCKS_PER_SEC * 1000.0 << " ms" << endl;
+    fos.close();
+}
+
 int main() {
     terminalTips();
     int choice = 0;
@@ -18,6 +46,16 @@ int main() {
     while (choice) {
         if (choice == 1) {
             string filename = initSudoku();
+            int varnum = 0;
+            Head* LinkedList = initCnf(varnum,filename);
+            int *result = new int[varnum];
+            clock_t startTime,endTime;
+            startTime = clock();
+            bool flag = DPLL(LinkedList,result);
+            endTime = clock();
+            printAnswer(startTime,endTime,flag,result,varnum);
+            printCompleteSudoku(result,varnum);
+
             //TODO: Sudoku
         } else if (choice == 2) {
             //TODO 将文件操作放到配置文件或者环境变量中
@@ -35,26 +73,8 @@ int main() {
             startTime = clock();
             bool flag = DPLL(LinkedList,result);
             endTime = clock();
+            printAnswer(startTime,endTime,flag,result,varnum);
 
-            if (flag) {
-                fos << "S " << 1 << endl;
-                fos << "V ";
-                for (int i = 0; i < varnum; i++) {
-                    if (result[i] == 1) {
-                        fos << i + 1 << " ";
-                    } else if (result[i] == 0) {
-                        fos << -(i + 1) << " ";
-                    } else {
-                        fos << i + 1 << " ";
-                    }
-                }
-                fos << endl;
-            } else {
-                fos << "S " << -1 << endl;
-                fos << "V " << endl;
-            }
-            fos<< "T " << (double)(endTime - startTime) / CLOCKS_PER_SEC * 1000.0 << " ms" << endl;
-            fos.close();
 
         } else if (choice == 0) {
             break;
@@ -62,6 +82,7 @@ int main() {
             cout << "Please input the right num! " << endl;
             exit(-1);
         }
+        cout << "求解已完成，请输入下一条指令: " << endl;
         cin >> choice;
     }
 

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HUST-DPLLSAT.iml" filepath="$PROJECT_DIR$/.idea/HUST-DPLLSAT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/HUST_DPLLSAT.iml" filepath="$PROJECT_DIR$/.idea/HUST_DPLLSAT.iml" />
     </modules>
   </component>
 </project>

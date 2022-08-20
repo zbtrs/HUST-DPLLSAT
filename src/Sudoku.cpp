@@ -218,7 +218,7 @@ string getCnf(int a[][COL],int b[][COL]) {
     }
     //cout << cnt << endl;
     fos.close();
-    return filePath + "sudoku.cnf";
+    return "sudoku.cnf";
 }
 
 string initSudoku() {
@@ -238,4 +238,48 @@ string initSudoku() {
     print(sudoku2);
 
     return getCnf(sudoku1,sudoku2);
+}
+
+void printCompleteSudoku(int *result, int varNum) {
+    int a[9][9] = {0},b[9][9] = {0};
+    for (int i = 0; i < varNum / 2; i++) {
+        if (result[i] > 0) {
+            int x = result[i] / 100 - 1;
+            int y = (result[i] - (x + 1) * 100) / 10 - 1;
+            a[x][y] = result[i] - (x + 1) * 100 - (y + 1) * 10;
+        }
+    }
+    for (int i = varNum / 2; i < varNum; i++) {
+        if (result[i] > 0) {
+            int t = result[i] - 1000;
+            int x = t / 100 - 1;
+            int y = (t - (x + 1) * 100) / 10 - 1;
+            b[x][y] = t - (x + 1) * 100 - (y + 1) * 10;
+        }
+    }
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 9; j++) {
+            cout << a[i][j] << " ";
+        }
+        cout << endl;
+    }
+    for (int i = 6; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            cout << a[i][j] << " ";
+        }
+        for (int j = 3; j < 9; j++) {
+            cout << b[i - 6][j] << " ";
+        }
+        cout << endl;
+    }
+    for (int i = 3; i < 9; i++) {
+        for (int j = 1; j <= 12; j++) {
+            cout << " ";
+        }
+        for (int j = 0; j < 9; j++) {
+            cout << b[i][j] << " ";
+        }
+        cout << endl;
+    }
+
 }

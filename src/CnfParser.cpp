@@ -79,7 +79,7 @@ Head* initCnf(int &varNum, string &filename) {
     //构建链表
     Head* HEAD = buildLinkedList(fis,clauseNum);
     //输出整个链表
-    printLinkedList(HEAD);
+    //printLinkedList(HEAD);
 
     return HEAD;
 }

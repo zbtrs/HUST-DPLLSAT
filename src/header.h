@@ -32,6 +32,7 @@ void terminalTips();
 Head* initCnf(int &, string &);
 bool DPLL(Head*,int*);
 string initSudoku();
+void printCompleteSudoku(int*, int);
 
 
 #endif //HUST_DPLLSAT_HEADER_H
