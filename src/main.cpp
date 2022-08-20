@@ -13,6 +13,9 @@ void terminalTips() {
 
 int main() {
     terminalTips();
+    int temp = 0;
+    string file = "problem1-20.cnf";
+    initCnf(temp,file);
     int choice = 0;
     cin >> choice;
     while (choice) {
@@ -23,8 +26,10 @@ int main() {
         } else if (choice == 0) {
             break;
         } else {
-            cout << ""
+            cout << "Please input the right num! " << endl;
+            exit(-1);
         }
+        cin >> choice;
     }
 
     return 0;
