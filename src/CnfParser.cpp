@@ -62,7 +62,6 @@ void printLinkedList(Head* HEAD) {
 Head* initCnf(int &varNum, string &filename) {
     //打开文件
     //TODO:改变代码结构
-    string filePath = R"(D:\HUST-DPLLSAT\samples\)";
     string file = filePath + filename;
     ifstream fis = openFile(file);
 

@@ -12,8 +12,10 @@
 #include <algorithm>
 #define ROW 9
 #define COL 9
-
 using namespace std;
+
+const string filePath = R"(D:\HUST-DPLLSAT\samples\)";
+
 
 typedef struct Data {
     int data = 0;

@@ -22,7 +22,6 @@ int main() {
         } else if (choice == 2) {
             //TODO 将文件操作放到配置文件或者环境变量中
             int varnum;
-            string filePath = R"(D:\HUST-DPLLSAT\samples\)";
             string file = "problem1-20.cnf";
             Head* LinkedList = initCnf(varnum,file);
             int result[varnum];
