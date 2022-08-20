@@ -10,6 +10,8 @@
 #include <fstream>
 #include <ctime>
 #include <algorithm>
+#define ROW 9
+#define COL 9
 
 using namespace std;
 
@@ -27,6 +29,7 @@ typedef struct Head{
 void terminalTips();
 Head* initCnf(int &, string &);
 bool DPLL(Head*,int*);
+string initSudoku();
 
 
 #endif //HUST_DPLLSAT_HEADER_H

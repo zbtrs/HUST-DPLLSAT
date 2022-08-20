@@ -13,16 +13,11 @@ void terminalTips() {
 
 int main() {
     terminalTips();
-    /*
-    //TODO test
-    int temp = 0;
-    string file = "problem1-20.cnf";
-    initCnf(temp,file);
-     */
     int choice = 0;
     cin >> choice;
     while (choice) {
         if (choice == 1) {
+            string filename = initSudoku();
             //TODO: Sudoku
         } else if (choice == 2) {
             //TODO 将文件操作放到配置文件或者环境变量中
@@ -62,7 +57,6 @@ int main() {
             fos<< "T " << (double)(endTime - startTime) / CLOCKS_PER_SEC * 1000.0 << " ms" << endl;
             fos.close();
 
-            //cout << "!!!" << endl;
         } else if (choice == 0) {
             break;
         } else {
