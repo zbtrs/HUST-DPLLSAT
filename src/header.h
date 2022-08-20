@@ -26,7 +26,7 @@ typedef struct Head{
 
 void terminalTips();
 Head* initCnf(int &, string &);
-
+bool DPLL(Head*,int*);
 
 
 #endif //HUST_DPLLSAT_HEADER_H

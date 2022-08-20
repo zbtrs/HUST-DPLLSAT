@@ -13,17 +13,56 @@ void terminalTips() {
 
 int main() {
     terminalTips();
+    /*
     //TODO test
     int temp = 0;
     string file = "problem1-20.cnf";
     initCnf(temp,file);
+     */
     int choice = 0;
     cin >> choice;
     while (choice) {
         if (choice == 1) {
             //TODO: Sudoku
         } else if (choice == 2) {
-            //TODO: SAT
+            //TODO 将文件操作放到配置文件或者环境变量中
+            int varnum;
+            string filePath = R"(D:\HUST-DPLLSAT\samples\)";
+            string file = "problem1-20.cnf";
+            Head* LinkedList = initCnf(varnum,file);
+            int result[varnum];
+            clock_t startTime,endTime;
+            string outputFile = filePath + "solution.res";
+            ofstream fos(outputFile);
+            if (!fos.is_open()) {
+                cout << "error! Can't open a new file\n" << endl;
+                exit(-1);
+            }
+            startTime = clock();
+            bool flag = DPLL(LinkedList,result);
+            endTime = clock();
+
+            if (flag) {
+                fos << "S " << 1 << endl;
+                fos << "V ";
+                for (int i = 0; i < varnum; i++) {
+                    if (result[i] == 1) {
+                        fos << i + 1 << " ";
+                    } else if (result[i] == 0) {
+                        fos << -(i + 1) << " ";
+                    } else {
+                        fos << i + 1 << " ";
+                    }
+                }
+                fos << endl;
+            } else {
+                fos << "S " << -1 << endl;
+                fos << "V " << endl;
+            }
+            fos<< "T " << (double)(endTime - startTime) / CLOCKS_PER_SEC * 1000.0 << " ms" << endl;
+            fos.close();
+
+            //cout << "!!!" << endl;
         } else if (choice == 0) {
             break;
         } else {
