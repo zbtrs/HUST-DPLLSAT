@@ -13,6 +13,7 @@ void terminalTips() {
 
 int main() {
     terminalTips();
+    //TODO test
     int temp = 0;
     string file = "problem1-20.cnf";
     initCnf(temp,file);

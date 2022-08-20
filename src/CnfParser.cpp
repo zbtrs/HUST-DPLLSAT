@@ -13,25 +13,7 @@ ifstream openFile(string file) {
     return fis;
 }
 
-Head* initCnf(int &varNum, string &filename) {
-    //打开文件
-    //TODO:改变代码结构
-    string filePath = R"(D:\HUST-DPLLSAT\samples\)";
-    string file = filePath + filename;
-    ifstream fis = openFile(file);
-    char ch,readbuf[1010];
-    fis >> ch;
-    while (ch != 'p') {
-        fis.getline(readbuf,1010);
-        fis >> ch;
-    }
-    string cnf;
-    int clauseNum;
-    fis >> cnf >> varNum >> clauseNum;
-    fis.get();
-
-    //接下来根据每一行读入的子句来构建链表
-    //TODO 小心内存泄漏
+Head* buildLinkedList(ifstream& fis,int clauseNum) {
     Head* HEAD = new Head;
     Head* headRear = HEAD;
     Head* END = new Head;
@@ -59,8 +41,10 @@ Head* initCnf(int &varNum, string &filename) {
         headRear = headRear -> nextHead;
     }
     END -> nextHead = nullptr;
+    return HEAD;
+}
 
-    //输出整个链表
+void printLinkedList(Head* HEAD) {
     Head* Phead = HEAD;
     Data* front = nullptr;
     cout << "CnfParser" << endl;
@@ -73,6 +57,30 @@ Head* initCnf(int &varNum, string &filename) {
         cout << endl;
         Phead = Phead -> nextHead;
     }
+}
+
+Head* initCnf(int &varNum, string &filename) {
+    //打开文件
+    //TODO:改变代码结构
+    string filePath = R"(D:\HUST-DPLLSAT\samples\)";
+    string file = filePath + filename;
+    ifstream fis = openFile(file);
+
+    char ch,readbuf[1010];
+    fis >> ch;
+    while (ch != 'p') {
+        fis.getline(readbuf,1010);
+        fis >> ch;
+    }
+    string cnf;
+    int clauseNum;
+    fis >> cnf >> varNum >> clauseNum;
+    fis.get();
+
+    //构建链表
+    Head* HEAD = buildLinkedList(fis,clauseNum);
+    //输出整个链表
+    printLinkedList(HEAD);
 
     return HEAD;
 }
