@@ -98,7 +98,7 @@ int main() {
             memset(result,0,sizeof(int) * varnum);
             clock_t startTime,endTime;
             startTime = clock();
-            bool flag = DPLL(LinkedList,result);
+            bool flag = DPLL(LinkedList,result,varnum);
             endTime = clock();
             printAnswer(startTime,endTime,flag,result,varnum,"sudoku.res");
             printCompleteSudoku(result,varnum);
@@ -118,7 +118,7 @@ int main() {
             clock_t startTime,endTime;
             string outputFile = file + ".res";
             startTime = clock();
-            bool flag = DPLL(LinkedList,result);
+            bool flag = DPLL(LinkedList,result,varnum);
             endTime = clock();
             printAnswer(startTime,endTime,flag,result,varnum,outputFile);
 

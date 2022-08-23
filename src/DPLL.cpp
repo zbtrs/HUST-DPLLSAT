@@ -130,7 +130,36 @@ Head* duplication(Head* LinkedList) {
     return newHead;
 }
 
-bool DPLL(Head* LinkedList,int* result) {
+void getArticle(Article *article,Head* LinkedList) {
+    for (Head* head = LinkedList; head != nullptr; head = head->nextHead) {
+        for (Data* data = head->nextData; data != nullptr; data = data->nextData) {
+            int val = data -> data;
+            if (val > 0) {
+                article[val - 1].positive++;
+            } else {
+                article[abs(val) - 1].negative++;
+            }
+        }
+    }
+}
+
+int findLargest(Article* article,int varNum) {
+    int largestPositive = 0,largestNegative = 0,ans = 0;
+    for (int i = 0; i < varNum; i++) {
+        if (article[i].negative + article[i].positive > largestNegative + largestPositive) {
+            ans = i;
+            largestNegative = article[i].negative;
+            largestPositive = article[i].positive;
+        } else if (article[i].positive > largestPositive) {
+            ans = i;
+            largestPositive = article[i].positive;
+            largestNegative = article[i].negative;
+        }
+    }
+    return ans;
+}
+
+bool DPLL(Head* LinkedList,int* result,int varNum) {
     Head* pFind = LinkedList;
     Head* singleClause = findSingleClause(pFind);
     while (singleClause != nullptr) {
@@ -150,16 +179,28 @@ bool DPLL(Head* LinkedList,int* result) {
         pFind = LinkedList;
         singleClause = findSingleClause(pFind);
     }
-    int data = LinkedList -> nextData -> data;
+    Article *article = new Article[varNum];
+    for (int i = 0; i < varNum; i++) {
+        article[i].positive = article[i].negative = 0;
+    }
+    getArticle(article,LinkedList);
+    int largest = findLargest(article,varNum),data = 0;
+    if (article[largest].positive >= article[largest].negative) {
+        data = largest + 1;
+    } else {
+        data = -(largest + 1);
+    }
+    delete[] article;
+    //int data = LinkedList -> nextData -> data;
+
     Head* last = duplication(LinkedList);
     Head* newLinkedList = addSingleClause(LinkedList,data);
     //分裂策略
-    if (DPLL(newLinkedList,result)) {
+    if (DPLL(newLinkedList,result,varNum)) {
         return true;
     } else {
         Head* newLinkedList2 = addSingleClause(last,-data);
-        return DPLL(newLinkedList2,result);
+        return DPLL(newLinkedList2,result,varNum);
     }
-
 }
 

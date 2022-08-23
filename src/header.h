@@ -28,9 +28,13 @@ typedef struct Head{
     Head *nextHead{};
 }Head;
 
+struct Article{
+    int positive = 0,negative = 0;
+};
+
 void terminalTips();
 Head* initCnf(int &, string &);
-bool DPLL(Head*,int*);
+bool DPLL(Head*,int*,int);
 string initSudoku();
 void printCompleteSudoku(int*, int);
 
