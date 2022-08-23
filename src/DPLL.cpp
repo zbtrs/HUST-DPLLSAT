@@ -159,6 +159,18 @@ int findLargest(Article* article,int varNum) {
     return ans;
 }
 
+Data* findMinimal(Head* LinkedList) {
+    Data* result = nullptr;
+    int miniNum = 0x7ffffff;
+    for (Head* head = LinkedList; head != nullptr; head = head -> nextHead) {
+        if (head -> num < miniNum) {
+            miniNum = head -> num;
+            result = head -> nextData;
+        }
+    }
+    return result;
+}
+
 bool DPLL(Head* LinkedList,int* result,int varNum) {
     Head* pFind = LinkedList;
     Head* singleClause = findSingleClause(pFind);
@@ -179,6 +191,9 @@ bool DPLL(Head* LinkedList,int* result,int varNum) {
         pFind = LinkedList;
         singleClause = findSingleClause(pFind);
     }
+    Data* minimalList = findMinimal(LinkedList);
+    int data = minimalList -> data;
+    /*
     Article *article = new Article[varNum];
     for (int i = 0; i < varNum; i++) {
         article[i].positive = article[i].negative = 0;
@@ -191,8 +206,8 @@ bool DPLL(Head* LinkedList,int* result,int varNum) {
         data = -(largest + 1);
     }
     delete[] article;
+     */
     //int data = LinkedList -> nextData -> data;
-
     Head* last = duplication(LinkedList);
     Head* newLinkedList = addSingleClause(LinkedList,data);
     //分裂策略
