@@ -32,7 +32,7 @@ struct Config{
     int holes = 0;
     string filename = "";
     int opt = 0;
-}config;
+};
 
 struct Article{
     int positive = 0,negative = 0;
@@ -41,7 +41,7 @@ struct Article{
 void terminalTips();
 Head* initCnf(int &, string &);
 bool DPLL(Head*,int*,int);
-string initSudoku();
+string initSudoku(int);
 void printCompleteSudoku(int*, int);
 
 

@@ -118,7 +118,6 @@ string getCnf(int a[][COL],int b[][COL]) {
         }
     }
     fos << "p cnf 1458 " << 29970 + tot << " " << endl;
-    //TODO 计算有多少个子句
     //对于已经填了的，直接生成单语句
     for (int i = 0; i < ROW; i++) {
         for (int j = 0; j < COL; j++) {
@@ -310,10 +309,36 @@ string getCnf(int a[][COL],int b[][COL]) {
     return "sudoku.cnf";
 }
 
-string initSudoku() {
+void printSudoku(int a[][COL],int b[][COL]) {
+    ofstream fos(filePath + "sudoku.out");
+    if (!fos.is_open()) {
+        cout << "Error! Can't open file" << endl;
+        exit(-1);
+    }
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(a[i][j]) << " ";
+        }
+    }
+    for (int i = 6; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(a[i][j]) << " ";
+        }
+        for (int j = 3; j < 9; j++) {
+            fos << to_string(b[i - 6][j]) << " ";
+        }
+    }
+    for (int i = 3; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(b[i][j]) << " ";
+        }
+    }
+}
+
+string initSudoku(int holes) {
     int sudoku1[ROW][COL] = {0};
     int sudoku2[ROW][COL] = {0};
-    int holeNum = 5;
+    int holeNum = holes;
     //先生成第一个数独，再来生成第二个
     createSudoku(sudoku1);
     for (int i = 0; i < 3; i++) {
@@ -325,6 +350,7 @@ string initSudoku() {
     putHole(sudoku1,sudoku2,holeNum);
     print(sudoku1);
     print(sudoku2);
+    printSudoku(sudoku1,sudoku2);
 
     return getCnf(sudoku1,sudoku2);
 }

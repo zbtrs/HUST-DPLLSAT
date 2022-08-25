@@ -5,7 +5,7 @@
 #include "header.h"
 #include "json.hpp"
 using namespace nlohmann;
-
+Config config;
 
 void terminalTips() {
     printf("                    Menu for SAT Solver based on DPLL                   \n");
@@ -43,6 +43,7 @@ void printAnswer(clock_t startTime,clock_t endTime,bool flag,int *result,int var
 }
 
 void printCompleteSudoku(int *result, int varNum) {
+    ofstream fos(filePath + "sudokuAnswer.out");
     int a[9][9] = {0},b[9][9] = {0};
     for (int i = 0; i < varNum / 2; i++) {
         if (result[i] > 0) {
@@ -84,6 +85,28 @@ void printCompleteSudoku(int *result, int varNum) {
         }
         cout << endl;
     }
+    if (!fos.is_open()) {
+        cout << "Error! Can't open file" << endl;
+        exit(-1);
+    }
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(a[i][j]) << " ";
+        }
+    }
+    for (int i = 6; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(a[i][j]) << " ";
+        }
+        for (int j = 3; j < 9; j++) {
+            fos << to_string(b[i - 6][j]) << " ";
+        }
+    }
+    for (int i = 3; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            fos << to_string(b[i][j]) << " ";
+        }
+    }
 }
 
 Config readConfig() {
@@ -111,6 +134,34 @@ Config readConfig() {
 int main() {
     //得到config.json的信息
     config = readConfig();
+    if (config.opt == 1) {
+        //数独模块，将生成的数独、答案分别输出到sudoku.out,sudokuAnswer.out中
+        string filename = initSudoku(config.holes);
+        int varnum = 0;
+        Head* LinkedList = initCnf(varnum,filename);
+        int *result = new int[varnum];
+        memset(result,0,sizeof(int) * varnum);
+        clock_t startTime,endTime;
+        startTime = clock();
+        bool flag = DPLL(LinkedList,result,varnum);
+        endTime = clock();
+        printAnswer(startTime,endTime,flag,result,varnum,"sudoku.res");
+        printCompleteSudoku(result,varnum);
+    } else if (config.opt == 2) {
+        int varnum;
+        string file = config.filename;
+        string suffix = ".cnf";
+        string filename = file + suffix;
+        Head* LinkedList = initCnf(varnum,filename);
+        int *result = new int[varnum];
+        memset(result,0,sizeof(int) * varnum);
+        clock_t startTime,endTime;
+        string outputFile = file + ".res";
+        startTime = clock();
+        bool flag = DPLL(LinkedList,result,varnum);
+        endTime = clock();
+        printAnswer(startTime,endTime,flag,result,varnum,outputFile);
+    }
 
     /*
     terminalTips();
