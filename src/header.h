@@ -28,6 +28,12 @@ typedef struct Head{
     Head *nextHead{};
 }Head;
 
+struct Config{
+    int holes = 0;
+    string filename = "";
+    int opt = 0;
+}config;
+
 struct Article{
     int positive = 0,negative = 0;
 };

@@ -3,6 +3,9 @@
 //
 
 #include "header.h"
+#include "json.hpp"
+using namespace nlohmann;
+
 
 void terminalTips() {
     printf("                    Menu for SAT Solver based on DPLL                   \n");
@@ -81,10 +84,35 @@ void printCompleteSudoku(int *result, int varNum) {
         }
         cout << endl;
     }
+}
 
+Config readConfig() {
+    ifstream myfile("D:\\HUST-DPLLSAT\\config.json",ios::in);
+    string result,temp;
+    if (!myfile.is_open()) {
+        cout << "can't find config" << endl;
+        exit(-1);
+    }
+    while (getline(myfile,temp)) {
+        result += temp;
+        result += '\n';
+    }
+    myfile.close();
+    json config = json::parse(result);
+    Config ans;
+    ans.filename = config["filename"];
+    string temp2 = config["opt"];
+    ans.opt = atoi(temp2.c_str());
+    temp2 = config["holes"];
+    ans.holes = atoi(temp2.c_str());
+    return ans;
 }
 
 int main() {
+    //得到config.json的信息
+    config = readConfig();
+
+    /*
     terminalTips();
     int choice = 0;
     cin >> choice;
@@ -131,6 +159,7 @@ int main() {
         terminalTips();
         cin >> choice;
     }
+    */
 
     return 0;
 }
